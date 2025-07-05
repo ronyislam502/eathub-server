@@ -20,6 +20,18 @@ const createAdmin = catchAsync(async (req, res) => {
   });
 });
 
+const createSeller = catchAsync(async (req, res) => {
+  const { password, seller } = req.body;
+  const result = await UserServices.createSellerIntoDB(password, seller);
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "Seller Created successfully",
+    data: result,
+  });
+});
+
 const getAllUsers = catchAsync(async (req, res) => {
   const users = await UserServices.getAllUsersFromDB(req.query);
 
@@ -62,6 +74,7 @@ const getSingleUser = catchAsync(async (req, res) => {
 
 export const UserControllers = {
   createAdmin,
+  createSeller,
   getAllUsers,
   getSingleUser,
 };

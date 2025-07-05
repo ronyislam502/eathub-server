@@ -4,8 +4,13 @@ export type TAddress = {
   street: string;
   city: string;
   state?: string;
-  postalCode: string;
+  area?: string;
+  postalCode?: string;
   country: string;
+  coordinates?: {
+    lat: number;
+    lng: number;
+  };
 };
 
 export type TSeller = {
@@ -13,8 +18,10 @@ export type TSeller = {
   name: string;
   description: string;
   email: string;
-  avatar?: string;
-  banner?: string;
+  shopName: string;
+  shopAddress: TAddress;
+  shopLogo?: string;
+  shopBanner?: string;
   phone: string;
   address: TAddress;
   isDeleted: boolean;

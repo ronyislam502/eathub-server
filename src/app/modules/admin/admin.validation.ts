@@ -1,7 +1,6 @@
 import { z } from "zod";
-import { USER_STATUS } from "../user/user.const";
 
-export const createAdminValidationSchema = z.object({
+const createAdminValidationSchema = z.object({
   body: z.object({
     password: z.string().max(20).optional(),
     admin: z.object({
@@ -12,7 +11,7 @@ export const createAdminValidationSchema = z.object({
   }),
 });
 
-export const updateAdminValidationSchema = z.object({
+const updateAdminValidationSchema = z.object({
   body: z.object({
     admin: z.object({
       name: z.string().optional(),

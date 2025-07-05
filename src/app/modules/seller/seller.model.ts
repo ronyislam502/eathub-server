@@ -4,20 +4,38 @@ import { SellerModel, TAddress, TSeller } from "./seller.interface";
 const addressSchema = new Schema<TAddress>({
   street: {
     type: String,
-    required: [true, "Street is required"],
+    required: true,
+    trim: true,
   },
   city: {
     type: String,
-    required: [true, "City is required"],
+    required: true,
+    trim: true,
   },
-  state: { type: String },
+  state: {
+    type: String,
+    trim: true,
+  },
+  area: {
+    type: String,
+    trim: true,
+  },
   postalCode: {
     type: String,
-    required: [true, "PostalCode is required"],
+    trim: true,
   },
   country: {
     type: String,
-    required: [true, "Country is required"],
+    required: true,
+    trim: true,
+  },
+  coordinates: {
+    lat: {
+      type: Number,
+    },
+    lng: {
+      type: Number,
+    },
   },
 });
 
@@ -47,13 +65,26 @@ const sellerSchema = new Schema<TSeller, SellerModel>(
         "Please fill a valid email address",
       ],
     },
-    avatar: {
+    shopName: {
+      type: String,
+      required: [true, "Name is required"],
+      unique: true,
+    },
+    shopLogo: {
       type: String,
       default: "",
     },
-    banner: {
+    shopBanner: {
       type: String,
       default: "",
+    },
+    address: {
+      type: addressSchema,
+      required: [true, "address is required"],
+    },
+    shopAddress: {
+      type: addressSchema,
+      required: [true, "shopAddress is required"],
     },
     phone: {
       type: String,

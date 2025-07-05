@@ -3,6 +3,7 @@ export const USER_ROLE = {
   ADMIN: "ADMIN",
   SELLER: "SELLER",
   CUSTOMER: "CUSTOMER",
+  COURIER: "COURIER",
 } as const;
 
 export const USER_STATUS = {

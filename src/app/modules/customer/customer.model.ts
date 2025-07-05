@@ -1,8 +1,7 @@
 import { model, Schema } from "mongoose";
-import { AdminModel, TAdmin } from "./admin.interface";
-import { USER_STATUS } from "../user/user.const";
+import { CustomerModel, TCustomer } from "./customer.interface";
 
-const adminSchema = new Schema<TAdmin, AdminModel>(
+const customerSchema = new Schema<TCustomer, CustomerModel>(
   {
     user: {
       type: Schema.Types.ObjectId,
@@ -42,25 +41,28 @@ const adminSchema = new Schema<TAdmin, AdminModel>(
   }
 );
 
-adminSchema.pre("find", function (next) {
+customerSchema.pre("find", function (next) {
   this.find({ isDeleted: { $ne: true } });
   next();
 });
 
-adminSchema.pre("findOne", function (next) {
+customerSchema.pre("findOne", function (next) {
   this.find({ isDeleted: { $ne: true } });
   next();
 });
 
-adminSchema.pre("aggregate", function (next) {
+customerSchema.pre("aggregate", function (next) {
   this.pipeline().unshift({ $match: { isDeleted: { $ne: true } } });
   next();
 });
 
-adminSchema.statics.isUserExists = async function (email: string) {
-  const existingUser = await Admin.findOne({ email });
+customerSchema.statics.isUserExists = async function (email: string) {
+  const existingUser = await Customer.findOne({ email });
 
   return existingUser;
 };
 
-export const Admin = model<TAdmin, AdminModel>("Admin", adminSchema);
+export const Customer = model<TCustomer, CustomerModel>(
+  "Customer",
+  customerSchema
+);

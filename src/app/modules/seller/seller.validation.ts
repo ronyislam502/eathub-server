@@ -1,32 +1,58 @@
 import { z } from "zod";
 
-const createAddressValidationSchema = z.object({
-  street: z.string().min(1, "Street is required"),
-  city: z.string().min(1, "City is required"),
-  state: z.string().optional(),
-  postalCode: z.string().min(1, "Postal code is required"),
-  country: z.string().min(1, "Country is required"),
+export const createAddressValidationSchema = z.object({
+  street: z.string({
+    invalid_type_error: "street must be string",
+  }),
+  city: z.string({
+    invalid_type_error: "city must be string",
+  }),
+  state: z.string({
+    invalid_type_error: "city must be string",
+  }),
+  area: z.string({
+    invalid_type_error: "city must be string",
+  }),
+  postalCode: z.string({
+    invalid_type_error: "city must be string",
+  }),
+  country: z.string({
+    invalid_type_error: "city must be string",
+  }),
+  coordinates: z.object({
+    lat: z.number(),
+    lng: z.number(),
+  }),
 });
 
 const createSellerValidationSchema = z.object({
   body: z.object({
     password: z.string().max(20).optional(),
     seller: z.object({
-      name: z.string().min(1, "Name is required"),
-      description: z.string().min(1, "description is required"),
+      name: z.string().min(1, "Seller name is required"),
+      description: z.string().min(1, "Description is required"),
       email: z.string().email("Email is required"),
-      phone: z.string().min(4, "Phone is required"),
+      shopName: z.string().min(1, "Shop name is required"),
+      shopAddress: createAddressValidationSchema,
+      phone: z.string().min(6, "Phone is required"),
       address: createAddressValidationSchema,
     }),
   }),
 });
 
-const updateAddressValidationSchema = z.object({
+export const updateAddressValidationSchema = z.object({
   street: z.string().optional(),
   city: z.string().optional(),
   state: z.string().optional(),
+  area: z.string().optional(),
   postalCode: z.string().optional(),
   country: z.string().optional(),
+  coordinates: z
+    .object({
+      lat: z.number(),
+      lng: z.number(),
+    })
+    .optional(),
 });
 
 const updateUserValidationSchema = z.object({
@@ -34,9 +60,10 @@ const updateUserValidationSchema = z.object({
     name: z.string().optional(),
     description: z.string().optional(),
     email: z.string().email().optional(),
-    password: z.string().optional(),
+    shopName: z.string().optional(),
     address: updateAddressValidationSchema,
     phone: z.string().optional(),
+    shopAddress: updateAddressValidationSchema,
   }),
 });
 

@@ -13,7 +13,7 @@ const sendEmail = async (email: string, html: string) => {
     },
   });
 
-  const info = await transporter.sendMail({
+  await transporter.sendMail({
     from: '"EatHub" <ronyislam502@gmail.com>', // sender address
     to: email,
     subject: "Reset your password Link!", // Subject line

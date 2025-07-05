@@ -4,6 +4,7 @@ import { multerUpload } from "../../config/multer.config";
 import { parseBody } from "../../middlewares/bodyParser";
 import { validateRequest } from "../../middlewares/validateRequest";
 import { AdminValidations } from "../admin/admin.validation";
+import { SellerValidations } from "../seller/seller.validation";
 
 const router = express.Router();
 
@@ -13,6 +14,14 @@ router.post(
   parseBody,
   validateRequest(AdminValidations.createAdminValidationSchema),
   UserControllers.createAdmin
+);
+
+router.post(
+  "/create-seller",
+  // multerUpload.single("image"),
+  // parseBody,
+  validateRequest(SellerValidations.createSellerValidationSchema),
+  UserControllers.createSeller
 );
 
 router.get("/", UserControllers.getAllUsers);

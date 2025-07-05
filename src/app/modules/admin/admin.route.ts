@@ -5,8 +5,8 @@ const router = Router();
 
 router.get("/", AdminControllers.AllAdmins);
 
-router.get("/:id", AdminControllers.singleAdmin);
+router.get("/single/:id", AdminControllers.singleAdmin);
 
-router.delete("/:id", AdminControllers.deleteAdmin);
+router.delete("/delete/:id", AdminControllers.deleteAdmin);
 
 export const AdminRoutes = router;

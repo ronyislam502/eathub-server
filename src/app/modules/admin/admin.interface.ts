@@ -7,7 +7,6 @@ export type TAdmin = {
   email: string;
   avatar?: string;
   phone: string;
-  status: keyof typeof USER_STATUS;
   isDeleted: boolean;
 };
 
