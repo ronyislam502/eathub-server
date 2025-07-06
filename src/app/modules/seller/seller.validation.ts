@@ -19,10 +19,6 @@ export const createAddressValidationSchema = z.object({
   country: z.string({
     invalid_type_error: "city must be string",
   }),
-  coordinates: z.object({
-    lat: z.number(),
-    lng: z.number(),
-  }),
 });
 
 const createSellerValidationSchema = z.object({
@@ -30,12 +26,11 @@ const createSellerValidationSchema = z.object({
     password: z.string().max(20).optional(),
     seller: z.object({
       name: z.string().min(1, "Seller name is required"),
-      description: z.string().min(1, "Description is required"),
       email: z.string().email("Email is required"),
-      shopName: z.string().min(1, "Shop name is required"),
-      shopAddress: createAddressValidationSchema,
       phone: z.string().min(6, "Phone is required"),
       address: createAddressValidationSchema,
+      shopName: z.string().min(1, "Shop name is required"),
+      description: z.string().min(1, "Description is required"),
     }),
   }),
 });
@@ -58,12 +53,11 @@ export const updateAddressValidationSchema = z.object({
 const updateUserValidationSchema = z.object({
   body: z.object({
     name: z.string().optional(),
-    description: z.string().optional(),
     email: z.string().email().optional(),
-    shopName: z.string().optional(),
-    address: updateAddressValidationSchema,
     phone: z.string().optional(),
-    shopAddress: updateAddressValidationSchema,
+    address: updateAddressValidationSchema,
+    shopName: z.string().optional(),
+    description: z.string().optional(),
   }),
 });
 

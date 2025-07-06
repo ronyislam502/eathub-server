@@ -13,6 +13,7 @@ import { TSeller } from "../seller/seller.interface";
 import { Seller } from "../seller/seller.model";
 import { TCustomer } from "../customer/customer.interface";
 import { Customer } from "./../customer/customer.model";
+import { geocodeAddress } from "../../utilities/locationTrack";
 
 const createAdminIntoDB = async (
   image: TImageFile,
@@ -70,28 +71,37 @@ const createSellerIntoDB = async (password: string, payload: TSeller) => {
 
   try {
     session.startTransaction();
-    // if (image && image.path) {
-    //   payload.avatar = image.path;
-    // }
 
+    // 1. Create user
     const newUser = await User.create([userData], { session });
-
     if (!newUser?.length) {
       throw new AppError(httpStatus.BAD_REQUEST, "Failed to create user");
     }
-
     payload.user = newUser[0]._id;
 
-    const newSeller = await Seller.create([payload], { session });
+    // 2. Build full address string for geocoding
+    const fullAddress = `${payload.address.street}, ${payload.address.city}, ${payload.address.state || ""}, ${payload.address.postalCode || ""}, ${payload.address.country}`;
 
+    // 3. Geocode to get lat, lon
+    const { lat, lon } = await geocodeAddress(fullAddress);
+
+    // 4. Set shopAddress as GeoJSON Point
+    payload.shopAddress = {
+      type: "Point",
+      coordinates: [lon, lat],
+    };
+
+    // 5. Create seller
+    const newSeller = await Seller.create([payload], { session });
     if (!newSeller.length) {
       throw new AppError(httpStatus.BAD_REQUEST, "Failed to create seller");
     }
 
+    // 6. Commit transaction & end session
     await session.commitTransaction();
     await session.endSession();
 
-    return newSeller;
+    return newSeller; // Return single seller document
   } catch (error: any) {
     await session.abortTransaction();
     await session.endSession();

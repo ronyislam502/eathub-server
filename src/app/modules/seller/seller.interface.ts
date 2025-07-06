@@ -1,5 +1,10 @@
 import { Model, Types } from "mongoose";
 
+export type TCoordinates = {
+  lat: number;
+  lng: number;
+};
+
 export type TAddress = {
   street: string;
   city: string;
@@ -7,23 +12,24 @@ export type TAddress = {
   area?: string;
   postalCode?: string;
   country: string;
-  coordinates?: {
-    lat: number;
-    lng: number;
-  };
+  coordinates?: TCoordinates;
 };
 
 export type TSeller = {
   user: Types.ObjectId;
   name: string;
-  description: string;
   email: string;
-  shopName: string;
-  shopAddress: TAddress;
-  shopLogo?: string;
-  shopBanner?: string;
   phone: string;
   address: TAddress;
+  shopName: string;
+  description: string;
+  shopAddress?: {
+    type: "Point";
+    coordinates: [number, number];
+  };
+  shopLogo?: string;
+  shopBanner?: string;
+  cuisines: Types.ObjectId[];
   isDeleted: boolean;
 };
 

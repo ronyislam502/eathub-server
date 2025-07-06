@@ -51,10 +51,6 @@ const sellerSchema = new Schema<TSeller, SellerModel>(
       type: String,
       required: [true, "Name is required"],
     },
-    description: {
-      type: String,
-      required: [true, "description is required"],
-    },
     email: {
       type: String,
       required: [true, "Email is required"],
@@ -65,10 +61,31 @@ const sellerSchema = new Schema<TSeller, SellerModel>(
         "Please fill a valid email address",
       ],
     },
+    phone: {
+      type: String,
+      required: [true, "Phone is required"],
+    },
+    address: {
+      type: addressSchema,
+      required: [true, "address is required"],
+      coordinates: {
+        type: [Number],
+        required: true,
+        validate: {
+          validator: (val: number[]) => val.length === 2,
+          message:
+            "Coordinates must be an array of two numbers [longitude, latitude]",
+        },
+      },
+    },
     shopName: {
       type: String,
       required: [true, "Name is required"],
       unique: true,
+    },
+    description: {
+      type: String,
+      required: [true, "description is required"],
     },
     shopLogo: {
       type: String,
@@ -78,18 +95,29 @@ const sellerSchema = new Schema<TSeller, SellerModel>(
       type: String,
       default: "",
     },
-    address: {
-      type: addressSchema,
-      required: [true, "address is required"],
-    },
     shopAddress: {
-      type: addressSchema,
-      required: [true, "shopAddress is required"],
+      type: {
+        type: String,
+        enum: ["Point"],
+        required: true,
+        default: "Point",
+      },
+      coordinates: {
+        type: [Number],
+        required: true,
+        validate: {
+          validator: (val: number[]) => val.length === 2,
+          message:
+            "Coordinates must be an array of two numbers [longitude, latitude]",
+        },
+      },
     },
-    phone: {
-      type: String,
-      required: [true, "Phone is required"],
-    },
+    cuisines: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "Cuisine",
+      },
+    ],
     isDeleted: {
       type: Boolean,
       default: false,

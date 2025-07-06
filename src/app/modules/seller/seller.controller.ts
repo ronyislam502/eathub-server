@@ -39,8 +39,21 @@ const deleteSeller = catchAsync(async (req, res) => {
   });
 });
 
+const updateSeller = catchAsync(async (req, res) => {
+  const { id } = req.params;
+  const result = await SellerServices.updateSellerIntoDB(id, req.body);
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "Seller updated successfully",
+    data: result,
+  });
+});
+
 export const SellerControllers = {
   allSellers,
   singleSeller,
   deleteSeller,
+  updateSeller,
 };

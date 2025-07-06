@@ -6,6 +6,7 @@ const cuisineSchema = new Schema<TCuisine>(
     title: {
       type: String,
       required: [true, "title is required"],
+      unique: true,
     },
     icon: {
       type: String,
