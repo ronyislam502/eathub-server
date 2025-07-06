@@ -5,6 +5,7 @@ import { AdminRoutes } from "../modules/admin/admin.route";
 import { SellerRoutes } from "../modules/seller/seller.route";
 import { CustomerRoutes } from "../modules/customer/customer.route";
 import { CuisineRoutes } from "../modules/cuisine/cuisine.route";
+import { SellerCuisineRoutes } from "../modules/sellerCuisine/sellerCuisine.route";
 
 const router = Router();
 
@@ -32,6 +33,10 @@ const moduleRoutes = [
   {
     path: "/cuisines",
     route: CuisineRoutes,
+  },
+  {
+    path: "/sellerCuisines",
+    route: SellerCuisineRoutes,
   },
 ];
 

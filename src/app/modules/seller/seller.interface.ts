@@ -29,7 +29,7 @@ export type TSeller = {
   };
   shopLogo?: string;
   shopBanner?: string;
-  cuisines: Types.ObjectId[];
+  // cuisines: Types.ObjectId[];
   isDeleted: boolean;
 };
 

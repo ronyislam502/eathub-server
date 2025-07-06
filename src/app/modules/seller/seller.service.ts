@@ -105,12 +105,7 @@ const updateSellerIntoDB = async (id: string, payload: Partial<TSeller>) => {
   session.startTransaction();
 
   try {
-    const { address, cuisines, ...remainingData } = payload;
-    // console.log("cuisine", payload?.cuisines);
-
-    // console.log("isSeller", isSeller);
-
-    // console.log("address", payload?.address);
+    const { address, ...remainingData } = payload;
 
     const modifiedData: Record<string, unknown> = {
       ...remainingData,
@@ -139,6 +134,16 @@ const updateSellerIntoDB = async (id: string, payload: Partial<TSeller>) => {
       coordinates: [lon, lat],
     };
 
+    // if (cuisines && cuisines.length > 0) {
+    //   // delete specialties
+    //   const createCuisines = cuisines.filter(
+    //     (specialty) => !specialty.isDeleted
+    //   );
+    //   for (const cuisine of createCuisines) {
+    //     await Seller.cuisines.create({ cuisines: { cuisineId } });
+    //   }
+    // }
+
     const updateUser = await User.findByIdAndUpdate(isSeller?.user, userData, {
       new: true,
       session,
@@ -158,7 +163,7 @@ const updateSellerIntoDB = async (id: string, payload: Partial<TSeller>) => {
     await session.commitTransaction();
     await session.endSession();
 
-    return updateSeller;
+    return null;
   } catch (error: any) {
     await session.abortTransaction();
     await session.endSession();

@@ -112,12 +112,12 @@ const sellerSchema = new Schema<TSeller, SellerModel>(
         },
       },
     },
-    cuisines: [
-      {
-        type: Schema.Types.ObjectId,
-        ref: "Cuisine",
-      },
-    ],
+    // cuisines: [
+    //   {
+    //     type: Schema.Types.ObjectId,
+    //     ref: "Cuisine",
+    //   },
+    // ],
     isDeleted: {
       type: Boolean,
       default: false,
